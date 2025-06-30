@@ -21,29 +21,24 @@ export default async function FeedsPage() {
   console.log('[FeedsPage]: Successfully fetched feeds:', feeds.length);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-white to-gray-50 p-6">
-      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">Latest Feeds</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6 text-center">Feeds</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {feeds.map((feed) => (
-          <Card
-            key={feed.id}
-            className="shadow-lg hover:shadow-2xl transition-shadow rounded-md border border-gray-200"
-          >
+          <Card key={feed.id} className="shadow hover:shadow-xl transition">
             <CardHeader>
-              <CardTitle className="text-lg font-semibold text-gray-800">{feed.title}</CardTitle>
+              <CardTitle className="text-lg font-semibold">{feed.title}</CardTitle>
               {feed.company && (
-                <CardDescription className="italic mt-1 text-gray-500">
-                  {feed.company}
-                </CardDescription>
+                <CardDescription className="mt-1">{feed.company}</CardDescription>
               )}
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-muted-foreground">
                 {feed.description || 'No description provided.'}
               </p>
             </CardContent>
-            <CardFooter className="pt-2 border-t border-gray-100">
-              <p className="text-xs text-gray-400">Feed ID: {feed.id}</p>
+            <CardFooter className="pt-2">
+              <p className="text-xs text-muted-foreground">Feed ID: {feed.id}</p>
             </CardFooter>
           </Card>
         ))}
