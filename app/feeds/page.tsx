@@ -4,7 +4,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 export default async function FeedsPage() {
   console.log("Rendering FeedsPage...");
   try {
-    const res = await fetch('http://localhost:3000/api/feeds', {
+    // Use relative path instead of absolute URL
+    const res = await fetch('/api/feeds', {
       cache: 'no-store',
     });
     if (!res.ok) {
