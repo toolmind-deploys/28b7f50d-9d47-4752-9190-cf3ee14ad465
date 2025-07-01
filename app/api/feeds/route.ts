@@ -5,18 +5,21 @@ import { NextRequest, NextResponse } from 'next/server';
 initFirebaseAdminSDK();
 const fsdb = firestore();
 
-export async function GET(_req: NextRequest) {
-  console.log('[GET /api/feeds]: Retrieving feeds from Firestore');
+export async function GET(_: NextRequest) {
+  console.log("[GET] /api/feeds requested");
   try {
     const snapshot = await fsdb.collection('feeds').get();
-    const feeds: any[] = [];
-    snapshot.forEach((doc) => {
-      feeds.push({ id: doc.id, ...doc.data() });
+    const feedsData = snapshot.docs.map((doc) => {
+      const docData = doc.data();
+      return {
+        id: doc.id,
+        ...docData
+      };
     });
-    console.log('[GET /api/feeds]: Feeds fetched:', feeds.length);
-    return NextResponse.json(feeds, { status: 200 });
-  } catch (error: any) {
-    console.error('[GET /api/feeds]: Error retrieving feeds', error);
-    return NextResponse.json({ error: 'Error retrieving feeds' }, { status: 500 });
+    console.log("Fetched feeds:", feedsData);
+    return NextResponse.json(feedsData);
+  } catch (error) {
+    console.error("Error retrieving feeds:", error);
+    return NextResponse.json({ error: 'Failed to retrieve feeds' }, { status: 500 });
   }
 }
