@@ -6,20 +6,19 @@ initFirebaseAdminSDK();
 const fsdb = firestore();
 
 export async function GET(_: NextRequest) {
-  console.log("[GET] /api/feeds requested");
+  console.log('[GET] /api/feeds requested');
   try {
     const snapshot = await fsdb.collection('feeds').get();
     const feedsData = snapshot.docs.map((doc) => {
-      const docData = doc.data();
       return {
         id: doc.id,
-        ...docData
+        ...doc.data()
       };
     });
-    console.log("Fetched feeds:", feedsData);
+    console.log('Fetched feeds:', feedsData);
     return NextResponse.json(feedsData);
   } catch (error) {
-    console.error("Error retrieving feeds:", error);
+    console.error('Error retrieving feeds:', error);
     return NextResponse.json({ error: 'Failed to retrieve feeds' }, { status: 500 });
   }
 }
