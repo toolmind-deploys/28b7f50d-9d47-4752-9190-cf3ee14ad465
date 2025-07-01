@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 
 export default async function FeedsPage() {
   console.log("Rendering FeedsPage...");
@@ -9,18 +10,26 @@ export default async function FeedsPage() {
     if (!res.ok) {
       throw new Error(`Failed to fetch feeds. Status: ${res.status}`);
     }
-    const data = await res.json();
-    console.log("Fetched feeds:", data);
+
+    const feeds = await res.json();
+    console.log("Fetched feeds:", feeds);
 
     return (
-      <div className="p-4">
+      <div className="p-4 space-y-4">
         <h1 className="text-2xl font-bold mb-4">Feeds</h1>
-        {Array.isArray(data) && data.length > 0 ? (
-          data.map((feed: any) => (
-            <div key={feed.id} className="mb-4 border border-gray-200 rounded p-3">
-              <h2 className="font-semibold text-lg">{feed.title}</h2>
-              <p className="text-sm text-gray-600">{feed.description}</p>
-            </div>
+        {Array.isArray(feeds) && feeds.length > 0 ? (
+          feeds.map((feed: any) => (
+            <Card key={feed.id} className="border rounded shadow-sm">
+              <CardHeader>
+                <CardTitle>{feed.title}</CardTitle>
+                <CardDescription className="text-sm text-gray-600">
+                  {feed.company} – {feed.jobType}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-800">{feed.description || "No description available."}</p>
+              </CardContent>
+            </Card>
           ))
         ) : (
           <p>No feeds found.</p>
